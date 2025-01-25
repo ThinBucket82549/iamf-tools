@@ -44,7 +44,7 @@ jobs:
         with: 
           name: bazel-artifacts 
           path: | 
-          bazel-bin 
-          bazel-iamf-tools
-          bazel-out 
-          bazel-testlogs
+           bazel-bin 
+           bazel-iamf-tools-main
+           bazel-out 
+           bazel-testlogs
