@@ -1,0 +1,33 @@
+name: iamf-tools-builder
+
+description: Run unit tests for IAMF Tools.
+
+inputs:
+  platform:
+    description: "The platform to build for."
+    type: string
+    default: linux
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        # Configure platform-specific settings.
+        if [[ "${{inputs.platform}}" == "windows" ]]; then
+          # Windows works best with a very short path as per https://bazel.build/configure/windows#long-path-issues.
+          echo "startup --output_user_root=C:/" >> .bazelrc
+        fi
+
+        # Run all unit tests.
+        bazelisk test -c opt --test_output=errors iamf/...
+
+    - name: Upload test results
+      if: always()  # Ensures artifacts are uploaded even if tests fail
+      uses: actions/upload-artifact@v4
+      with:
+        name: iamf-tools-artifacts
+        path: |
+          bazel-testlogs/
+          bazel-bin/
+        retention-days: 7
