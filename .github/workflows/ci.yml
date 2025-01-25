@@ -39,3 +39,12 @@ jobs:
         uses: ./.github/actions/iamf-tools-builder
         with:
           platform: windows
+      - name: Upload build artifacts 
+        uses: actions/upload-artifact@v4 
+        with: 
+          name: bazel-artifacts 
+          path: | 
+          bazel-bin 
+          bazel-iamf-tools
+          bazel-out 
+          bazel-testlogs
